@@ -68,13 +68,17 @@ fi
 
 # Generate flamegraph
 echo "---Generating flamegraph---"
-uftrace dump --flame-graph $UFTRACE_OPTIONS > $FLAMEGRAPH_FILE
-./flamegraph.pl $FLAMEGRAPH_FILE > graph_ingest.svg
+if [ -f ./flamegraph.pl ]; then
+	uftrace dump --flame-graph $UFTRACE_OPTIONS > $FLAMEGRAPH_FILE
+    ./flamegraph.pl $FLAMEGRAPH_FILE > graph_ingest.svg
+else
+    echo "Warning: flamegraph.pl not found in the current directory. Skipping SVG generation."
+fi
 
 # Clean up files
 echo "---Cleaning up files---"
 rm -rf uftrace.data*
-rm $FLAMEGRAPH_FILE
-rm gmon.out
-rm $TAR_NAME
+rm -f $FLAMEGRAPH_FILE
+rm -f gmon.out
+rm -f $TAR_NAME
 rm -rf numbers
