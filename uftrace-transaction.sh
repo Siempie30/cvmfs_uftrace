@@ -25,7 +25,7 @@ done
 
 # Record transaction command and abort
 uftrace record --force /usr/bin/cvmfs_server transaction
-cvmfs_server abort
+cvmfs_server abort --force
 
 UFTRACE_OPTIONS="hide='std::*'"
 
@@ -41,4 +41,4 @@ rm $FLAMEGRAPH_FILE
 
 # Clean up files
 rm -rf uftrace.data*
-rm gmon.out
+rm -f gmon.out
