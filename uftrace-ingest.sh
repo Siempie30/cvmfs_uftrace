@@ -54,8 +54,8 @@ tar -cf $TAR_NAME numbers
 
 # Record ingest command and clean up
 echo "---Recording ingest command---"
-uftrace record --force -e cvmfs_server ingest -t $TAR_NAME -b tarDir $REPO_NAME
-echo "---Cleaning up repostiroy---"
+uftrace record --force /usr/bin/cvmfs_server ingest -t $TAR_NAME -b tarDir $REPO_NAME
+echo "---Cleaning up repository---"
 cvmfs_server transaction $REPO_NAME || exit 1
 rm -rf /cvmfs/$REPO_NAME/$TAR_DIR
 cvmfs_server publish $REPO_NAME || exit 2
@@ -70,7 +70,7 @@ fi
 echo "---Generating flamegraph---"
 if [ -f ./flamegraph.pl ]; then
 	uftrace dump --flame-graph $UFTRACE_OPTIONS > $FLAMEGRAPH_FILE
-    ./flamegraph.pl $FLAMEGRAPH_FILE > graph_ingest.svg
+    ./flamegraph.pl $FLAMEGRAPH_FILE > flamegraph_ingest.svg
 else
     echo "Warning: flamegraph.pl not found in the current directory. Skipping SVG generation."
 fi

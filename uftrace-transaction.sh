@@ -24,7 +24,7 @@ while getopts ":o:h" opt; do
 done
 
 # Record transaction command and abort
-uftrace record --force cvmfs_server transaction
+uftrace record --force /usr/bin/cvmfs_server transaction
 cvmfs_server abort
 
 UFTRACE_OPTIONS="hide='std::*'"
@@ -36,7 +36,7 @@ fi
 
 # Generate flamegraph
 uftrace dump --flame-graph $UFTRACE_OPTIONS > $FLAMEGRAPH_FILE
-./flamegraph.pl $FLAMEGRAPH_FILE > graph.svg
+./flamegraph.pl $FLAMEGRAPH_FILE > flamegraph_transaction.svg
 rm $FLAMEGRAPH_FILE
 
 # Clean up files

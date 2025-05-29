@@ -26,7 +26,7 @@ done
 
 # Record transaction command and abort
 cvmfs_server transaction
-uftrace record --force -e cvmfs_server publish
+uftrace record --force -e /usr/bin/cvmfs_server publish
 
 UFTRACE_OPTIONS="hide='std::*'"
 
@@ -37,7 +37,7 @@ fi
 
 # Generate flamegraph
 uftrace dump --flame-graph $UFTRACE_OPTIONS > $FLAMEGRAPH_FILE
-./flamegraph.pl $FLAMEGRAPH_FILE > graph_publish.svg
+./flamegraph.pl $FLAMEGRAPH_FILE > flamegraph_publish.svg
 rm $FLAMEGRAPH_FILE
 
 # Clean up files
