@@ -37,12 +37,12 @@ if [ $# -lt 1 ]; then
 	echo "Missing repository name"
 	usage
 fi
+
 REPO_NAME="$1"
 
 echo "---Recording publish command---"
 cvmfs_server transaction $REPO_NAME
-# TODO: maybe add something in the transaction for more interesting publish results?
-uftrace record --force -e /usr/bin/cvmfs_server publish $REPO_NAME
+uftrace record --force /usr/bin/cvmfs_server publish $REPO_NAME
 
 echo "---Generating uftrace replay output---"
 if [ "${GENERATE_TXT:-0}" -eq 1 ]; then

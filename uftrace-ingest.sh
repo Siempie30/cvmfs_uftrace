@@ -18,25 +18,24 @@ UFTRACE_OPTIONS=""
 
 # Check options
 while getopts ":o:u:h" opt; do
-    case "$opt" in
-        o)
-            GENERATE_TXT=1	
-            OUTPUT_FILE="$OPTARG" ;;
-        u)
-            UFTRACE_OPTIONS="$OPTARG" ;;
-        h)
-            usage ;;	
-        ?) 
-            echo "Invalid option";
-            usage ;;
-    esac
+	case "$opt" in
+		o)
+			GENERATE_TXT=1	
+			OUTPUT_FILE="$OPTARG" ;;
+		u)
+			UFTRACE_OPTIONS="$OPTARG" ;;
+		h)
+			usage ;;	
+		?) 
+			echo "Invalid option";
+			usage ;;
+	esac
 done
 
 shift $((OPTIND -1))
-
 if [ $# -lt 1 ]; then
-    echo "Missing repository name"
-    usage
+	echo "Missing repository name"
+	usage
 fi
 
 REPO_NAME="$1"
@@ -56,16 +55,16 @@ uftrace record --force /usr/bin/cvmfs_server ingest -t $TAR_NAME -b tarDir $REPO
 
 echo "---Generating uftrace replay output---"
 if [ "${GENERATE_TXT:-0}" -eq 1 ]; then
-    uftrace replay $UFTRACE_OPTIONS > $OUTPUT_FILE
+	uftrace replay $UFTRACE_OPTIONS > $OUTPUT_FILE
 fi
 
 echo "---Generating flamegraph---"
 if [ -f ./flamegraph.pl ]; then
-    mkdir -p output
+	mkdir -p output
 	uftrace dump --flame-graph $UFTRACE_OPTIONS > $FLAMEGRAPH_FILE
-    ./flamegraph.pl $FLAMEGRAPH_FILE > output/flamegraph_ingest.svg
+	./flamegraph.pl $FLAMEGRAPH_FILE > output/flamegraph_ingest.svg
 else
-    echo "Warning: flamegraph.pl not found in the current directory. Skipping SVG generation."
+	echo "Warning: flamegraph.pl not found in the current directory. Skipping SVG generation."
 fi
 
 echo "---Cleaning up repository---"

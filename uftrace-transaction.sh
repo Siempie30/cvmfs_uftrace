@@ -37,10 +37,11 @@ if [ $# -lt 1 ]; then
 	echo "Missing repository name"
 	usage
 fi
+
 REPO_NAME="$1"
 
 echo "---Recording transaction command---"
-uftrace record --force -e /usr/bin/cvmfs_server transaction $REPO_NAME
+uftrace record --force /usr/bin/cvmfs_server transaction $REPO_NAME
 cvmfs_server abort --force
 
 echo "---Generating uftrace replay output---"
@@ -57,7 +58,7 @@ else
 	echo "Warning: flamegraph.pl not found in the current directory. Skipping SVG generation."
 fi
 
-# Clean up files
+echo "---Cleaning up files---"
 rm -rf uftrace.data*
 rm -f $FLAMEGRAPH_FILE
 rm -f gmon.out
